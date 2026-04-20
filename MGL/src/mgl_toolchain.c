@@ -18,7 +18,7 @@
 #include "spirv_cross_c.h"
 #elif __has_include(<spirv_cross_c.h>)
 #define MGL_TOOLCHAIN_HAS_SPVC 1
-#include <spirv_cross_c.h>
+#include <spirv_cross/spirv_cross_c.h>
 #else
 #define MGL_TOOLCHAIN_HAS_SPVC 0
 #endif

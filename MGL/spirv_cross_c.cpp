@@ -21,7 +21,7 @@
  *  2. The MIT License, found at <http://opensource.org/licenses/MIT>.
  */
 
-#include "spirv_cross_c.h"
+#include "spirv_cross/spirv_cross_c.h"
 
 #if SPIRV_CROSS_C_API_CPP
 #include "spirv_cpp.hpp"
