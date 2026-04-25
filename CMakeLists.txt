@@ -4,7 +4,7 @@ project(openglonmetal)
 # brew install glslang
 # brew install SPIRV-Cross
 
-#     MGL/src/gl_core.c
+#     
 
 set(SPIRV_CROSS "${CMAKE_BINARY_DIR}/SPIRV-Cross")
 if(NOT EXISTS "${SPIRV_CROSS}")
@@ -23,7 +23,9 @@ if(NOT EXISTS "${SPIRV_CROSS}")
     endif()
 endif()
 
-add_library(openglonmetal
+option(MGL_USE_ES_API "Use the OpenGL ES Api" FALSE)
+
+set(SOURCES
     MGL/src/buffers.c
     MGL/src/buffers.h
     MGL/src/compute.c
@@ -32,7 +34,6 @@ add_library(openglonmetal
     MGL/src/fence.c
     MGL/src/framebuffers.c
     MGL/src/get.c
-    MGL/src/gl_es.c
     MGL/src/glm_context.c
     MGL/src/glm_dispatch.c
     MGL/src/glm_params.c
@@ -59,16 +60,60 @@ add_library(openglonmetal
     MGL/src/utils.c
     MGL/src/vertex_arrays.c
     MGL/src/vertex_arrays.h
-    MGL/src/vertex_buffers.c)
+    MGL/src/vertex_buffers.c
+    MGL/src/bar_glue.c)
+
+if(MGL_USE_ES_API)
+    list(APPEND SOURCES MGL/src/gl_es.c)
+else()
+    list(APPEND SOURCES MGL/src/gl_core.c)
+endif()
+
+add_library(openglonmetal SHARED
+    ${SOURCES})
 
 target_include_directories(openglonmetal
-    PRIVATE
+    PUBLIC
         MGL/include
         MGL/include/GL
+        external/glfw/deps
+        external/glfw/include
+    PRIVATE
         /opt/homebrew/Cellar/glslang/16.2.0/include/glslang/Include
         /opt/homebrew/Cellar/spirv-tools/1.4.341.0/include
         ${CMAKE_BINARY_DIR}/SPIRV-Cross)
 
-target_compile_definitions(openglonmetal
-    PRIVATE
-        MGL_GL_ES)
+if(MGL_USE_ES_API)
+    target_compile_definitions(openglonmetal
+        PRIVATE
+            MGL_GL_ES)
+else()
+    target_compile_definitions(openglonmetal
+        PRIVATE
+            MGL_GL_CORE)
+endif()
+
+target_link_directories(openglonmetal PRIVATE
+    "/opt/homebrew/lib")
+target_link_libraries(openglonmetal PRIVATE
+    "-framework OpenGL"
+    "-framework Cocoa"
+    "-framework Metal"
+    "-framework QuartzCore"
+    glslang
+    glslang-default-resource-limits
+    spirv-cross-c
+    spirv-cross-core
+    spirv-cross-msl
+    spirv-cross-cpp
+    spirv-cross-glsl
+    spirv-cross-hlsl
+    spirv-cross-reflect
+    c++)
+
+# turn off symbol exports, except ones explicitly marked:
+target_compile_options(openglonmetal PRIVATE "-fvisibility=hidden")
+if(1)
+    # don't demangle things for debugging:
+    target_link_options(openglonmetal PRIVATE "-Wl,--no-demangle")
+endif()

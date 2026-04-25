@@ -78,11 +78,7 @@ static int isRenderBuffer(GLMContext ctx, GLuint renderbuffer)
 
 Renderbuffer *findRenderbuffer(GLMContext ctx, GLuint renderbuffer)
 {
-    Renderbuffer *ptr;
-
-    ptr = (Renderbuffer *)searchHashTable(&STATE(renderbuffer_table), renderbuffer);
-
-    return ptr;
+    return (Renderbuffer *)searchHashTable(&STATE(renderbuffer_table), renderbuffer);
 }
 
 Framebuffer *currentFBOForType(GLMContext ctx, GLenum target)
@@ -100,6 +96,8 @@ Framebuffer *currentFBOForType(GLMContext ctx, GLenum target)
 
         default: assert(0); break;
     }
+
+    return NULL;
 }
 
 #pragma mark framebuffer logic

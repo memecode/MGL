@@ -695,10 +695,10 @@ typedef struct GLMContextRec_t {
 
 #ifdef MGL_GL_CORE
     struct GLMDispatchTable dispatch;
-#endif
-    
-#ifdef MGL_GL_ES
+#elif MGL_GL_ES
     struct GLM_ES_DispatchTable dispatch;
+#else
+    #error "One of these needs to be defined?"
 #endif
 
     struct GLMMetalFuncs mtl_funcs;

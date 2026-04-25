@@ -9,6 +9,7 @@
 //
 
 #include "glcorearb.h"
+#include "bar_glue.h"
 
 #include "glm_context.h"
 
