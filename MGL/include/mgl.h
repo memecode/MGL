@@ -20,6 +20,8 @@
 #include "glcorearb.h"
 #include "glm_context.h"
 
+#define NO_IMPL printf("%s:%i - %s not impl\n", __FILE__, __LINE__, __func__);
+
 void mglCullFace(GLMContext ctx, GLenum mode);
 void mglFrontFace(GLMContext ctx, GLenum mode);
 void mglHint(GLMContext ctx, GLenum target, GLenum mode);

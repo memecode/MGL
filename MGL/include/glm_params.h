@@ -376,6 +376,7 @@ typedef struct GLMParams_t {
     GLuint vertex_binding_stride;
     GLuint max_vertex_attrib_relative_offset;
     GLuint max_vertex_attrib_bindings;
+
 } GLMParams;
 
 #endif /* glm_params_h */

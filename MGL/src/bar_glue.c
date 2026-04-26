@@ -154,3 +154,9 @@ void glRenderbufferStorageMultisampleEXT(GLenum target, GLsizei samples, GLenum 
 {
     NO_IMPL
 }
+
+GLboolean glIsRenderbufferEXT(GLuint renderbuffer)
+{
+    NO_IMPL
+    return GL_FALSE;
+}

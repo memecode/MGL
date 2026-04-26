@@ -509,3 +509,13 @@ void mglReadPixels(GLMContext ctx, GLint x, GLint y, GLsizei width, GLsizei heig
     vm_deallocate(mach_host_self(), buffer_data, buffer_size);
 }
 
+void mglShadeModel(GLMContext ctx, GLenum mode)
+{
+    NO_IMPL
+}
+
+void mglColor3f(GLMContext ctx, GLfloat red, GLfloat green, GLfloat blue)
+{
+    NO_IMPL
+}
+

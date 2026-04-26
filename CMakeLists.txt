@@ -4,7 +4,7 @@ project(openglonmetal)
 # brew install glslang
 # brew install SPIRV-Cross
 
-#     
+message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 
 set(SPIRV_CROSS "${CMAKE_BINARY_DIR}/SPIRV-Cross")
 if(NOT EXISTS "${SPIRV_CROSS}")
@@ -58,6 +58,7 @@ set(SOURCES
     MGL/src/textures.c.with_lots_of_debug
     MGL/src/uniforms.c
     MGL/src/utils.c
+    MGL/src/matrix.c
     MGL/src/vertex_arrays.c
     MGL/src/vertex_arrays.h
     MGL/src/vertex_buffers.c

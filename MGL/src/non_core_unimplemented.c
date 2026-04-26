@@ -107,12 +107,6 @@ void mglColor3dv(GLMContext ctx, const GLdouble *v)
     assert(0);
 }
 
-void mglColor3f(GLMContext ctx, GLfloat red, GLfloat green, GLfloat blue)
-{
-    // Unimplemented function
-    assert(0);
-}
-
 void mglColor3fv(GLMContext ctx, const GLfloat *v)
 {
     // Unimplemented function
@@ -1049,12 +1043,6 @@ void mglPolygonStipple(GLMContext ctx, const GLubyte *mask)
     assert(0);
 }
 
-void mglShadeModel(GLMContext ctx, GLenum mode)
-{
-    // Unimplemented function
-    assert(0);
-}
-
 void mglTexEnvf(GLMContext ctx, GLenum target, GLenum pname, GLfloat param)
 {
     // Unimplemented function
@@ -1283,12 +1271,6 @@ void mglFrustum(GLMContext ctx, GLdouble left, GLdouble right, GLdouble bottom, 
     assert(0);
 }
 
-void mglLoadIdentity(GLMContext ctx)
-{
-    // Unimplemented function
-    assert(0);
-}
-
 void mglLoadMatrixf(GLMContext ctx, const GLfloat *m)
 {
     // Unimplemented function
@@ -1301,12 +1283,6 @@ void mglLoadMatrixd(GLMContext ctx, const GLdouble *m)
     assert(0);
 }
 
-void mglMatrixMode(GLMContext ctx, GLenum mode)
-{
-    // Unimplemented function
-    assert(0);
-}
-
 void mglMultMatrixf(GLMContext ctx, const GLfloat *m)
 {
     // Unimplemented function
@@ -1314,12 +1290,6 @@ void mglMultMatrixf(GLMContext ctx, const GLfloat *m)
 }
 
 void mglMultMatrixd(GLMContext ctx, const GLdouble *m)
-{
-    // Unimplemented function
-    assert(0);
-}
-
-void mglOrtho(GLMContext ctx, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar)
 {
     // Unimplemented function
     assert(0);

@@ -3060,10 +3060,12 @@ void mtlBlitFramebuffer(GLMContext glm_ctx, GLint srcX0, GLint srcY0, GLint srcX
             if(_drawBuffers[mgl_drawbuffer].depthbuffer)
             {
                 depth_texture = _drawBuffers[mgl_drawbuffer].depthbuffer;
+                printf("%s:%i - depth_texture from _drawBuffers..\n", __FILE__, __LINE__);
             }
             else
             {
                 depth_texture = [self newDrawBufferWithCustomSize:ctx->depth_format.mtl_pixel_format isDepthStencil:true customSize: CGSizeMake(texture.width, texture.height) ];
+                printf("%s:%i - depth_texture from newDrawBufferWithCustomSize..\n", __FILE__, __LINE__);
                 _drawBuffers[mgl_drawbuffer].depthbuffer = depth_texture;
             }
         }

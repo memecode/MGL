@@ -591,11 +591,15 @@ void mglGetShaderiv(GLMContext ctx, GLuint shader, GLenum pname, GLint *params)
             break;
 
         case GL_INFO_LOG_LENGTH:
-            *params = (GLint)strlen(ptr->log);
+            printf("%s:%i - ptr=%p log=%p\n", __FILE__, __LINE__, ptr, ptr ? ptr->log : NULL);
+            if (ptr && ptr->log)
+                *params = (GLint)strlen(ptr->log);
             break;
 
         case GL_SHADER_SOURCE_LENGTH:
-            *params = (GLint)ptr->src_len;
+            printf("%s:%i - ptr=%p\n", __FILE__, __LINE__, ptr);
+            if (ptr)
+                *params = (GLint)ptr->src_len;
             break;
 
         default:

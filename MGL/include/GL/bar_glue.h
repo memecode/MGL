@@ -1454,6 +1454,25 @@ extern "C" {
 #define GL_COMPRESSED_LUMINANCE_ARB 0x84EA
 #define GL_TEXTURE_RECTANGLE_NV 0x84F5
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB 0x8515
+#define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB 0x851A
+
+
+#define	GLAD_GL_ARB_multi_draw_indirect GL_TRUE
+#define GLAD_GL_ARB_texture_float GL_TRUE
+#define GLAD_GL_ARB_texture_non_power_of_two GL_TRUE
+#define GLAD_GL_ARB_texture_env_combine GL_TRUE
+#define GLAD_GL_ARB_texture_rectangle GL_TRUE
+#define GLAD_GL_ARB_texture_compression GL_TRUE
+#define GLAD_GL_ARB_texture_border_clamp GL_TRUE
+#define GLAD_GL_EXT_texture_rectangle GL_TRUE
+#define GLAD_GL_ARB_texture_query_lod GL_TRUE
+#define GLAD_GL_ARB_multitexture GL_TRUE
+#define GLAD_GL_ARB_depth_texture GL_TRUE
+#define GLAD_GL_ARB_instanced_arrays GL_TRUE
+#define GLAD_GL_ARB_uniform_buffer_object GL_TRUE
+#define GLAD_GL_ARB_framebuffer_object GL_TRUE
+#define GLAD_GL_ARB_shading_language_420pack GL_TRUE
+#define GLAD_GL_ARB_draw_elements_base_vertex GL_TRUE
 
 #define GLAD_GL_NV_vertex_program2 GL_FALSE
 #define GLAD_GL_ARB_depth_clamp GL_FALSE
@@ -1463,19 +1482,9 @@ extern "C" {
 #define GLAD_GL_EXT_pixel_buffer_object GL_FALSE
 #define GLAD_GL_ARB_map_buffer_range GL_FALSE
 #define GLAD_GL_EXT_texture_filter_anisotropic GL_FALSE
-#define GLAD_GL_ARB_texture_float GL_TRUE
-#define GLAD_GL_ARB_texture_non_power_of_two GL_TRUE
-#define GLAD_GL_ARB_texture_env_combine GL_TRUE
-#define GLAD_GL_ARB_texture_rectangle GL_TRUE
-#define GLAD_GL_ARB_texture_compression GL_TRUE
 #define GLAD_GL_ARB_texture_env_dot3 GL_FALSE
 #define GLAD_GL_EXT_texture_edge_clamp GL_FALSE
-#define GLAD_GL_ARB_texture_border_clamp GL_TRUE
-#define GLAD_GL_EXT_texture_rectangle GL_TRUE
-#define GLAD_GL_ARB_texture_query_lod GL_TRUE
 #define GLAD_GL_ARB_multisample GL_FALSE
-#define GLAD_GL_ARB_multitexture GL_TRUE
-#define GLAD_GL_ARB_depth_texture GL_TRUE
 #define GLAD_GL_ARB_vertex_buffer_object GL_FALSE
 #define GLAD_GL_ARB_vertex_array_object GL_FALSE
 #define GLAD_GL_ARB_vertex_shader GL_FALSE
@@ -1489,19 +1498,13 @@ extern "C" {
 #define GLAD_GL_ARB_imaging GL_FALSE
 #define GLAD_GL_ARB_occlusion_query GL_FALSE
 #define GLAD_GL_ARB_geometry_shader4 GL_FALSE
-#define GLAD_GL_ARB_instanced_arrays GL_FALSE
 #define GLAD_GL_ARB_transform_feedback_instanced GL_FALSE
-#define GLAD_GL_ARB_uniform_buffer_object GL_FALSE
 #define GLAD_GL_ARB_shader_storage_buffer_object GL_FALSE
 #define GLAD_GL_ARB_transform_feedback3 GL_FALSE
 #define GLAD_GL_EXT_blend_equation_separate GL_FALSE
 #define GLAD_GL_EXT_blend_func_separate GL_FALSE
-#define GLAD_GL_ARB_framebuffer_object GL_TRUE
-#define GLAD_GL_ARB_shading_language_420pack GL_FALSE
 #define GLAD_GL_ARB_buffer_storage GL_FALSE
-#define GLAD_GL_ARB_draw_elements_base_vertex GL_FALSE
 #define GLAD_GL_ARB_copy_buffer GL_FALSE
-#define	GLAD_GL_ARB_multi_draw_indirect GL_FALSE
 #define	GLAD_GL_ARB_sync GL_FALSE
 #define GLAD_GL_ARB_timer_query GL_FALSE
 #define GLAD_GL_ARB_explicit_attrib_location GL_FALSE
@@ -1598,6 +1601,7 @@ GLAPI void APIENTRY glFramebufferTextureLayerEXT(GLenum target, GLenum attachmen
 GLAPI void APIENTRY glGetFramebufferAttachmentParameterivEXT(GLenum target, GLenum attachment, GLenum pname, GLint *params);
 GLAPI void APIENTRY glGetRenderbufferParameterivEXT(GLenum target, GLenum pname, GLint *params);
 GLAPI void APIENTRY glRenderbufferStorageMultisampleEXT(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
+GLAPI GLboolean APIENTRY glIsRenderbufferEXT(GLuint renderbuffer);
 
 // local impl:
 GLAPI void APIENTRY glVertex3f(GLfloat x, GLfloat y, GLfloat z);
@@ -1666,18 +1670,14 @@ GLAPI void APIENTRY glVertexPointer(GLint size, GLenum type, GLsizei stride, con
 GLAPI void APIENTRY glDisableClientState(GLenum array);
 GLAPI void APIENTRY glNormalPointer(GLenum type, GLsizei stride, const void *pointer);
 GLAPI void APIENTRY glColorPointer(GLint size, GLenum type, GLsizei stride, const void *pointer);
-
 GLAPI void APIENTRY glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const void *pointer);
 GLAPI void APIENTRY glClientActiveTexture(GLenum texture);
-
-GLAPI GLboolean APIENTRY glIsRenderbufferEXT(GLuint renderbuffer);
-
 GLAPI void APIENTRY glGetProgramivARB(GLenum target, GLenum pname, GLint *params);
 GLAPI void APIENTRY glGenProgramsARB(GLsizei n, GLuint *programs);
 GLAPI void APIENTRY glDeleteProgramsARB(GLsizei n, const GLuint *programs);
-
 GLAPI void APIENTRY glProgramStringARB(GLenum target, GLenum format, GLsizei len, const void *string);
 
 #ifdef __cplusplus
 }
 #endif
+
