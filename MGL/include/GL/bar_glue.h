@@ -1473,6 +1473,9 @@ extern "C" {
 #define GLAD_GL_ARB_framebuffer_object GL_TRUE
 #define GLAD_GL_ARB_shading_language_420pack GL_TRUE
 #define GLAD_GL_ARB_draw_elements_base_vertex GL_TRUE
+#define GLAD_GL_ARB_vertex_shader GL_TRUE
+#define GLAD_GL_ARB_fragment_shader GL_TRUE
+#define GLAD_GL_ARB_explicit_attrib_location GL_TRUE
 
 #define GLAD_GL_NV_vertex_program2 GL_FALSE
 #define GLAD_GL_ARB_depth_clamp GL_FALSE
@@ -1487,11 +1490,9 @@ extern "C" {
 #define GLAD_GL_ARB_multisample GL_FALSE
 #define GLAD_GL_ARB_vertex_buffer_object GL_FALSE
 #define GLAD_GL_ARB_vertex_array_object GL_FALSE
-#define GLAD_GL_ARB_vertex_shader GL_FALSE
 #define GLAD_GL_ARB_vertex_program GL_FALSE
 #define GLAD_GL_ARB_shader_objects GL_FALSE
 #define GLAD_GL_ARB_shading_language_100 GL_FALSE
-#define GLAD_GL_ARB_fragment_shader GL_FALSE
 #define GLAD_GL_ARB_fragment_program GL_FALSE
 #define GLAD_GL_ARB_shadow GL_FALSE
 #define GLAD_GL_ARB_shadow_ambient GL_FALSE
@@ -1507,7 +1508,6 @@ extern "C" {
 #define GLAD_GL_ARB_copy_buffer GL_FALSE
 #define	GLAD_GL_ARB_sync GL_FALSE
 #define GLAD_GL_ARB_timer_query GL_FALSE
-#define GLAD_GL_ARB_explicit_attrib_location GL_FALSE
 #define GLAD_GL_EXT_packed_float GL_FALSE
 #define GLAD_GL_ARB_texture_storage GL_FALSE
 #define GLAD_GL_ARB_copy_image GL_FALSE

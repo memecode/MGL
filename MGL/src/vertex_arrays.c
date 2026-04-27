@@ -521,8 +521,13 @@ void mglDisableVertexAttribArray(GLMContext ctx, GLuint index)
 
     ERROR_CHECK_RETURN(index < MAX_ATTRIBS, GL_INVALID_VALUE);
 
-    STATE(vao)->enabled_attribs &= ~(0x1 << index);
+    if (!STATE(vao))
+    {
+        printf("%s:%i - ERROR: no vao ptr\n", __FILE__, __LINE__);
+        return;
+    }
 
+    STATE(vao)->enabled_attribs &= ~(0x1 << index);
     VAO_STATE(dirty_bits) |= DIRTY_VAO;
 }
 

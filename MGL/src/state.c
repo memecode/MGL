@@ -851,13 +851,13 @@ void mglBlendFuncSeparate(GLMContext ctx, GLenum sfactorRGB, GLenum dfactorRGB, 
 void mglPointParameterf(GLMContext ctx, GLenum pname, GLfloat param)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglPointParameterfv(GLMContext ctx, GLenum pname, const GLfloat *params)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglPointParameteri(GLMContext ctx, GLenum pname, GLint param)

@@ -539,6 +539,7 @@ void mglCompileShader(GLMContext ctx, GLuint shader)
                 glslang_shader_get_info_log(glsl_shader),
                 glslang_shader_get_info_debug_log(glsl_shader));
 
+        printf("%s:%i - set error log %p to %p\n", __FILE__, __LINE__, ptr, ptr->log);
         return;
     }
 
@@ -591,15 +592,17 @@ void mglGetShaderiv(GLMContext ctx, GLuint shader, GLenum pname, GLint *params)
             break;
 
         case GL_INFO_LOG_LENGTH:
-            printf("%s:%i - ptr=%p log=%p\n", __FILE__, __LINE__, ptr, ptr ? ptr->log : NULL);
             if (ptr && ptr->log)
                 *params = (GLint)strlen(ptr->log);
+            else
+                *params = 0; // no string
             break;
 
         case GL_SHADER_SOURCE_LENGTH:
-            printf("%s:%i - ptr=%p\n", __FILE__, __LINE__, ptr);
             if (ptr)
                 *params = (GLint)ptr->src_len;
+            else
+                *params = 0;
             break;
 
         default:

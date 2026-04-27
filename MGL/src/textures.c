@@ -26,6 +26,7 @@
 
 #include <Accelerate/Accelerate.h>
 
+#include "glcorearb.h"
 #include "pixel_utils.h"
 #include "utils.h"
 #include "glm_context.h"
@@ -65,6 +66,12 @@ Texture *currentTexture(GLMContext ctx, GLuint index)
     GLuint active_texture;
 
     active_texture = STATE(active_texture);
+
+    if (active_texture >= TEXTURE_UNITS)
+    {
+        printf("%s:%i - ERROR: active_texture too large: %u\n", __FILE__, __LINE__, active_texture);
+        return NULL;
+    }
 
     return STATE(texture_units[active_texture].textures[index]);
 }
@@ -191,8 +198,14 @@ Texture *getTex(GLMContext ctx, GLuint name, GLenum target)
             GLuint active_texture = STATE(active_texture);
             ptr = newTexObj(ctx, target);
             assert(ptr);
-            STATE(texture_units[active_texture].textures[index]) = ptr;
-            fprintf(stderr, "MGL: Created default texture for target 0x%x\n", target);
+
+            if (active_texture >= TEXTURE_UNITS)
+                printf("%s:%i - ERROR: active_texture=%u too large\n", __FILE__, __LINE__, active_texture);
+            else
+            {
+                STATE(texture_units[active_texture].textures[index]) = ptr;
+                fprintf(stderr, "MGL: Created default texture for target 0x%x\n", target);
+            }
         }
     }
     else
@@ -292,7 +305,12 @@ void mglBindTexture(GLMContext ctx, GLenum target, GLuint texture)
     GLuint mask_index = active_texture / 32;
     GLuint mask = (0x1 << active_texture);
 
-    if (ptr)
+    if (mask_index >= sizeof(STATE(active_texture_mask)))
+    {
+        printf("%s:%i - ERROR: invalid mask_index=%u\n", __FILE__, __LINE__, mask_index);
+        return;
+    }
+    else if (ptr)
     {
         STATE(active_texture_mask[mask_index]) |= mask;
     }
@@ -547,6 +565,12 @@ void generateMipmaps(GLMContext ctx, GLuint texture, GLenum target)
     ptr = getTex(ctx, texture, target);
 
     ERROR_CHECK_RETURN(ptr, GL_INVALID_OPERATION);
+    
+    if (!ptr->faces[0].levels)
+    {
+        printf("%s:%i - ERROR: invalid level 0\n", __FILE__, __LINE__);
+        return;
+    }
 
     // level 0 needs to be filled out for mipmap geneation
     ERROR_CHECK_RETURN(ptr->faces[0].levels[0].complete, GL_INVALID_OPERATION);
@@ -737,6 +761,7 @@ bool verifyInternalFormatAndFormatType(GLMContext ctx, GLint internalformat, GLe
         case GL_RG:
         case GL_RGB:
         case GL_RGBA:
+        case GL_ALPHA:
             break;
 
         // sized formats

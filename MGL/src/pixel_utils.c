@@ -21,6 +21,7 @@
 #include <Availability.h>
 
 #include "pixel_utils.h"
+#include "glcorearb.h"
 #include "glm_context.h"
 
 // Legacy format defines not in core profile headers
@@ -364,6 +365,7 @@ GLenum verifyInternalFormatType(GLint internalformat, GLenum format, GLenum type
         case GL_RG:
         case GL_RGB:
         case GL_RGBA:
+        case GL_ALPHA:
             break;
 
         // sized formats
@@ -2134,6 +2136,9 @@ MTLPixelFormat mtlFormatForGLInternalFormat(GLenum internal_format)
             
         case GL_RGB:
             return MTLPixelFormatRGBA8Unorm;  // No RGB-only format in Metal
+
+        case GL_ALPHA:
+            return MTLPixelFormatA8Unorm; // Not sure if this is correct?
             
         // Legacy luminance/alpha formats - map to R/RG
         case GL_ALPHA8:

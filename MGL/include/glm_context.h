@@ -524,23 +524,25 @@ enum {
     dirtyAllBit = 31
 };
 
-#define DIRTY_VAO       (0x1 << dirtyVAO)
-#define DIRTY_STATE     (0x1 << dirtyState)
-#define DIRTY_BUFFER    (0x1 << dirtyBuffer)
-#define DIRTY_TEX       (0x1 << dirtyTexture)
-#define DIRTY_TEX_PARAM   (0x1 << dirtyTexParam)
-#define DIRTY_TEX_BINDING (0x1 << dirtyTexBinding)
-#define DIRTY_SAMPLER (0x1 << dirtySampler)
-#define DIRTY_SHADER    (0x1 << dirtyShader)
-#define DIRTY_PROGRAM   (0x1 << dirtyProgram)
-#define DIRTY_FBO       (0x1 << dirtyFBO)
-#define DIRTY_DRAWABLE      (0x1 << dirtyDrawable)
-#define DIRTY_RENDER_STATE  (0x1 << dirtyRenderState)
-#define DIRTY_ALPHA_STATE   (0x1 << dirtyAlphaState)
-#define DIRTY_IMAGE_UNIT_STATE   (0x1 << dirtyImageUnit)
-#define DIRTY_BUFFER_BASE_STATE   (0x1 << dirtyBufferBase)
-#define DIRTY_ALL_BIT   ((unsigned)0x1 << dirtyAllBit)    // so we know the dirty all was set.
-#define DIRTY_ALL       (0xFFFFFFFF)
+#define DIRTY_VAO                   (0x1 << dirtyVAO)
+#define DIRTY_STATE                 (0x1 << dirtyState)
+#define DIRTY_BUFFER                (0x1 << dirtyBuffer)
+#define DIRTY_TEX                   (0x1 << dirtyTexture)
+#define DIRTY_TEX_PARAM             (0x1 << dirtyTexParam)
+#define DIRTY_TEX_BINDING           (0x1 << dirtyTexBinding)
+#define DIRTY_SAMPLER               (0x1 << dirtySampler)
+#define DIRTY_SHADER                (0x1 << dirtyShader)
+#define DIRTY_PROGRAM               (0x1 << dirtyProgram)
+#define DIRTY_FBO                   (0x1 << dirtyFBO)
+#define DIRTY_DRAWABLE              (0x1 << dirtyDrawable)
+#define DIRTY_RENDER_STATE          (0x1 << dirtyRenderState)
+#define DIRTY_ALPHA_STATE           (0x1 << dirtyAlphaState)
+#define DIRTY_IMAGE_UNIT_STATE      (0x1 << dirtyImageUnit)
+#define DIRTY_BUFFER_BASE_STATE     (0x1 << dirtyBufferBase)
+#define DIRTY_ALL_BIT               ((unsigned)0x1 << dirtyAllBit)    // so we know the dirty all was set.
+#define DIRTY_ALL                   (0xFFFFFFFF)
+
+#include "matrix.h"
 
 typedef struct {
     GLuint dirty_bits;
@@ -549,6 +551,7 @@ typedef struct {
     GLbitfield  clear_bitmask;
 
     // opengl state
+    Matrix matrix;
 
     // keep these out of the var struct for debugging and access
 
@@ -558,7 +561,7 @@ typedef struct {
     GLuint read_buffer; // GL_READ_BUFFER
     GLuint max_color_attachments; // GL_MAX_COLOR_ATTACHMENTS
     GLuint max_vertex_attribs; // GL_MAX_VERTEX_ATTRIBS
-    GLuint viewport[4]; // GL_VIEWPORT
+    GLuint viewport[4]; // GL_VIEWPORT - rectangle x1,y1,x2,y2 I would imagine
     GLfloat color_clear_value[4]; // GL_COLOR_CLEAR_VALUE
 
     Buffer *buffers[MAX_BINDABLE_BUFFERS];

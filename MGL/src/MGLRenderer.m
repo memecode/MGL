@@ -2887,7 +2887,7 @@ void mtlBlitFramebuffer(GLMContext glm_ctx, GLint srcX0, GLint srcY0, GLint srcX
 - (bool) newRenderEncoder
 {
     // I can't remember why this is here...
-    @autoreleasepool {
+    //@autoreleasepool {
 
     // AGX ERROR THROTTLING: Check if we should skip render encoder creation
     // BUT allow limited render encoder creation for essential functionality
@@ -2987,7 +2987,7 @@ void mtlBlitFramebuffer(GLMContext glm_ctx, GLint srcX0, GLint srcY0, GLint srcX
     else
     {
         GLuint mgl_drawbuffer;
-        id<MTLTexture> texture, depth_texture, stencil_texture;
+        id<MTLTexture> texture = nil, depth_texture = nil, stencil_texture = nil;
         
         switch(ctx->state.draw_buffer)
         {
@@ -3060,12 +3060,10 @@ void mtlBlitFramebuffer(GLMContext glm_ctx, GLint srcX0, GLint srcY0, GLint srcX
             if(_drawBuffers[mgl_drawbuffer].depthbuffer)
             {
                 depth_texture = _drawBuffers[mgl_drawbuffer].depthbuffer;
-                printf("%s:%i - depth_texture from _drawBuffers..\n", __FILE__, __LINE__);
             }
             else
             {
                 depth_texture = [self newDrawBufferWithCustomSize:ctx->depth_format.mtl_pixel_format isDepthStencil:true customSize: CGSizeMake(texture.width, texture.height) ];
-                printf("%s:%i - depth_texture from newDrawBufferWithCustomSize..\n", __FILE__, __LINE__);
                 _drawBuffers[mgl_drawbuffer].depthbuffer = depth_texture;
             }
         }
@@ -3207,6 +3205,7 @@ void mtlBlitFramebuffer(GLMContext glm_ctx, GLint srcX0, GLint srcY0, GLint srcX
             return false;
         }
         NSLog(@"MGL INFO: Successfully created Metal render encoder");
+        printf("%s:%i - _currentRenderEncoder=%p\n", __FILE__, __LINE__, _currentRenderEncoder);
         [self recordGPUSuccess];
     } @catch (NSException *exception) {
         NSLog(@"MGL ERROR: Exception creating render encoder: %@ - continuing with degraded functionality", exception);
@@ -3249,7 +3248,7 @@ void mtlBlitFramebuffer(GLMContext glm_ctx, GLint srcX0, GLint srcY0, GLint srcX
     [self recordGPUSuccess];
     return true;
         
-    } //     @autoreleasepool
+    // } //     @autoreleasepool
 }
 
 - (bool) newCommandBuffer
@@ -5378,12 +5377,19 @@ void mtlGetTexImage(GLMContext glm_ctx, Texture *tex, void *pixelBytes, GLuint b
     texture = (__bridge id<MTLTexture>)(tex->mtl_data);
     assert(texture);
 
-    // start blit encoder
-    id<MTLBlitCommandEncoder> blitCommandEncoder;
-    blitCommandEncoder = [_currentCommandBuffer blitCommandEncoder];
+    if ([_currentCommandBuffer status] > MTLCommandBufferStatusEnqueued)
+    {
+        printf("%s:%i - Error: invalid _currentCommandBuffer.status=%i\n", __FILE__, __LINE__, [_currentCommandBuffer status]);
+    }
+    else
+    {
+        // start blit encoder
+        id<MTLBlitCommandEncoder> blitCommandEncoder;
+        blitCommandEncoder = [_currentCommandBuffer blitCommandEncoder];
 
-    [blitCommandEncoder generateMipmapsForTexture:texture];
-    [blitCommandEncoder endEncoding];
+        [blitCommandEncoder generateMipmapsForTexture:texture];
+        [blitCommandEncoder endEncoding];
+    }
 }
 
 void mtlGenerateMipmaps(GLMContext glm_ctx, Texture *tex)

@@ -29,7 +29,7 @@ void mglArrayElement(GLMContext ctx, GLint i)
 void mglBegin(GLMContext ctx, GLenum mode)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglNewList(GLMContext ctx, GLuint list, GLenum mode)
@@ -67,7 +67,7 @@ GLuint mglGenLists(GLMContext ctx, GLsizei range)
     GLuint ret = 0;
 
     // Unimplemented function
-    assert(0);
+    NO_IMPL
     return ret;
 }
 
@@ -200,13 +200,13 @@ void mglColor4dv(GLMContext ctx, const GLdouble *v)
 void mglColor4f(GLMContext ctx, GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglColor4fv(GLMContext ctx, const GLfloat *v)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglColor4i(GLMContext ctx, GLint red, GLint green, GLint blue, GLint alpha)
@@ -272,7 +272,7 @@ void mglColor4usv(GLMContext ctx, const GLushort *v)
 void mglEnd(GLMContext ctx)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglEdgeFlag(GLMContext ctx, GLboolean flag)
@@ -554,7 +554,7 @@ void mglRectdv(GLMContext ctx, const GLdouble *v1, const GLdouble *v2)
 void mglRectf(GLMContext ctx, GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglRectfv(GLMContext ctx, const GLfloat *v1, const GLfloat *v2)
@@ -650,7 +650,7 @@ void mglTexCoord2dv(GLMContext ctx, const GLdouble *v)
 void mglTexCoord2f(GLMContext ctx, GLfloat s, GLfloat t)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglTexCoord2fv(GLMContext ctx, const GLfloat *v)
@@ -794,7 +794,7 @@ void mglVertex2dv(GLMContext ctx, const GLdouble *v)
 void mglVertex2f(GLMContext ctx, GLfloat x, GLfloat y)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglVertex2fv(GLMContext ctx, const GLfloat *v)
@@ -848,7 +848,7 @@ void mglVertex3f(GLMContext ctx, GLfloat x, GLfloat y, GLfloat z)
 void mglVertex3fv(GLMContext ctx, const GLfloat *v)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglVertex3i(GLMContext ctx, GLint x, GLint y, GLint z)
@@ -998,7 +998,7 @@ void mglLightModelfv(GLMContext ctx, GLenum pname, const GLfloat *params)
 void mglLightModeli(GLMContext ctx, GLenum pname, GLint param)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglLightModeliv(GLMContext ctx, GLenum pname, const GLint *params)
@@ -1016,13 +1016,13 @@ void mglLineStipple(GLMContext ctx, GLint factor, GLushort pattern)
 void mglMaterialf(GLMContext ctx, GLenum face, GLenum pname, GLfloat param)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglMaterialfv(GLMContext ctx, GLenum face, GLenum pname, const GLfloat *params)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglMateriali(GLMContext ctx, GLenum face, GLenum pname, GLint param)
@@ -1058,7 +1058,7 @@ void mglTexEnvfv(GLMContext ctx, GLenum target, GLenum pname, const GLfloat *par
 void mglTexEnvi(GLMContext ctx, GLenum target, GLenum pname, GLint param)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglTexEnviv(GLMContext ctx, GLenum target, GLenum pname, const GLint *params)
@@ -1274,7 +1274,7 @@ void mglFrustum(GLMContext ctx, GLdouble left, GLdouble right, GLdouble bottom, 
 void mglLoadMatrixf(GLMContext ctx, const GLfloat *m)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglLoadMatrixd(GLMContext ctx, const GLdouble *m)
@@ -1298,13 +1298,13 @@ void mglMultMatrixd(GLMContext ctx, const GLdouble *m)
 void mglPopMatrix(GLMContext ctx)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglPushMatrix(GLMContext ctx)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglRotated(GLMContext ctx, GLdouble angle, GLdouble x, GLdouble y, GLdouble z)
@@ -1328,7 +1328,7 @@ void mglScaled(GLMContext ctx, GLdouble x, GLdouble y, GLdouble z)
 void mglScalef(GLMContext ctx, GLfloat x, GLfloat y, GLfloat z)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglTranslated(GLMContext ctx, GLdouble x, GLdouble y, GLdouble z)
@@ -1340,7 +1340,7 @@ void mglTranslated(GLMContext ctx, GLdouble x, GLdouble y, GLdouble z)
 void mglTranslatef(GLMContext ctx, GLfloat x, GLfloat y, GLfloat z)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 
@@ -1401,13 +1401,13 @@ void mglAccum(GLMContext ctx, GLenum op, GLfloat value)
 void mglPopAttrib(GLMContext ctx)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglPushAttrib(GLMContext ctx, GLbitfield mask)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglMap1d(GLMContext ctx, GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points)
@@ -1533,7 +1533,7 @@ void mglEvalPoint2(GLMContext ctx, GLint i, GLint j)
 void mglAlphaFunc(GLMContext ctx, GLenum func, GLfloat ref)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglPixelZoom(GLMContext ctx, GLfloat xfactor, GLfloat yfactor)
@@ -2031,7 +2031,7 @@ void mglMultiTexCoord2dv(GLMContext ctx, GLenum target, const GLdouble *v)
 void mglMultiTexCoord2f(GLMContext ctx, GLenum target, GLfloat s, GLfloat t)
 {
     // Unimplemented function
-    assert(0);
+    NO_IMPL
 }
 
 void mglMultiTexCoord2fv(GLMContext ctx, GLenum target, const GLfloat *v)
