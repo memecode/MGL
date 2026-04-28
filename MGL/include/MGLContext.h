@@ -8,6 +8,8 @@
 #ifndef MGLContext_h
 #define MGLContext_h
 
+#include "mgl_common.h"
+
 // probably a reason for this... can't remember
 #ifndef __GLM_CONTEXT_
 #define __GLM_CONTEXT_
@@ -28,9 +30,9 @@ enum {
 extern "C" {
 #endif
 
-GLMContext createGLMContext(GLenum format, GLenum type,
-                            GLenum depth_format, GLenum depth_type,
-                            GLenum stencil_format, GLenum stencil_type);
+GLAPI GLMContext createGLMContext(GLenum format, GLenum type,
+                                  GLenum depth_format, GLenum depth_type,
+                                  GLenum stencil_format, GLenum stencil_type);
 
 GLuint sizeForFormatType(GLenum format, GLenum type);
 GLuint bicountForFormatType(GLenum format, GLenum type, GLenum component);

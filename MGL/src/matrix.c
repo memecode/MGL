@@ -65,7 +65,7 @@ void mglLoadIdentity(GLMContext ctx)
 
 void mglOrtho(GLMContext ctx, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble zNear, GLdouble zFar)
 {
-    Matrix *m = ctx->state.matrix;
+    Matrix *m = &ctx->state.matrix;
 }
 
 

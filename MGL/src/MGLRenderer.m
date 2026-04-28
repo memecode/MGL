@@ -5379,7 +5379,7 @@ void mtlGetTexImage(GLMContext glm_ctx, Texture *tex, void *pixelBytes, GLuint b
 
     if ([_currentCommandBuffer status] > MTLCommandBufferStatusEnqueued)
     {
-        printf("%s:%i - Error: invalid _currentCommandBuffer.status=%i\n", __FILE__, __LINE__, [_currentCommandBuffer status]);
+        printf("%s:%i - Error: invalid _currentCommandBuffer.status=%i\n", __FILE__, __LINE__, (int)[_currentCommandBuffer status]);
     }
     else
     {

@@ -35,6 +35,8 @@
 // defines above set sizes in glm_params
 #include "glm_params.h"
 
+#include "mgl_common.h"
+
 #ifdef DEBUG
 #define DEBUG_LEVEL 3
 #endif
@@ -718,14 +720,14 @@ typedef struct GLMContextRec_t {
     void (* error_func)(GLMContext ctx, const char *func, GLenum type);
 } GLMContextRec;
 
-
+GLAPI
 GLMContext createGLMContext(GLenum format, GLenum type,
                             GLenum depth_format, GLenum depth_type,
                             GLenum stencil_format, GLenum stencil_type);
 
 void mgl_lazy_init(void);
 
-void MGLsetCurrentContext(GLMContext ctx);
+GLAPI void MGLsetCurrentContext(GLMContext ctx);
 
 enum {
     MGL_PIXEL_FORMAT,
