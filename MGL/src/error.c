@@ -40,9 +40,9 @@ GLenum  mglGetError(GLMContext ctx)
 }
 
 
-void error_func(GLMContext ctx, const char *func, GLenum error)
+void error_func(GLMContext ctx, const char *func, int line, GLenum error)
 {
-    fprintf(stderr, "MGL GL Error in %s: 0x%x (%d)\n", func, error, error);
+    fprintf(stderr, "MGL GL Error in %s:%i 0x%x (%d)\n", func, line, error, error);
 
     if (ctx->state.error)
         return;

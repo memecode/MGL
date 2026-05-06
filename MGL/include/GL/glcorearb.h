@@ -88,6 +88,8 @@ typedef khronos_uint8_t GLubyte;
 #define GL_TRIANGLE_STRIP                 0x0005
 #define GL_TRIANGLE_FAN                   0x0006
 #define GL_QUADS                          0x0007
+#define GL_QUAD_STRIP                     0x0008
+#define GL_POLYGON                        0x0009
 #define GL_NEVER                          0x0200
 #define GL_LESS                           0x0201
 #define GL_EQUAL                          0x0202
@@ -151,6 +153,7 @@ typedef khronos_uint8_t GLubyte;
 #define GL_STENCIL_REF                    0x0B97
 #define GL_STENCIL_WRITEMASK              0x0B98
 #define GL_VIEWPORT                       0x0BA2
+#define GL_ALPHA_TEST                     0x0BC0
 #define GL_DITHER                         0x0BD0
 #define GL_BLEND_DST                      0x0BE0
 #define GL_BLEND_SRC                      0x0BE1
@@ -229,6 +232,8 @@ typedef khronos_uint8_t GLubyte;
 #define GL_POINT                          0x1B00
 #define GL_LINE                           0x1B01
 #define GL_FILL                           0x1B02
+#define GL_FLAT                           0x1D00
+#define GL_SMOOTH                         0x1D01
 #define GL_KEEP                           0x1E00
 #define GL_REPLACE                        0x1E01
 #define GL_INCR                           0x1E02

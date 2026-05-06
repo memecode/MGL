@@ -476,7 +476,7 @@ void logDirtyBits(GLMContext ctx)
                 }
                 else
                 {
-                    ctx->error_func(ctx, __FUNCTION__, GL_INVALID_OPERATION);
+                    ctx->error_func(ctx, __FUNCTION__, __LINE__, GL_INVALID_OPERATION);
 
                     return false;
                 }
@@ -3205,7 +3205,6 @@ void mtlBlitFramebuffer(GLMContext glm_ctx, GLint srcX0, GLint srcY0, GLint srcX
             return false;
         }
         NSLog(@"MGL INFO: Successfully created Metal render encoder");
-        printf("%s:%i - _currentRenderEncoder=%p\n", __FILE__, __LINE__, _currentRenderEncoder);
         [self recordGPUSuccess];
     } @catch (NSException *exception) {
         NSLog(@"MGL ERROR: Exception creating render encoder: %@ - continuing with degraded functionality", exception);
@@ -5345,7 +5344,7 @@ void mtlFlushBufferRange(GLMContext glm_ctx, Buffer *buf, GLintptr offset, GLsiz
     {
         // issue a gl error as we can't read a framebuffer only texture
         NSLog(@"Cannot read from framebuffer only texture\n");
-        ctx->error_func(ctx, __FUNCTION__, GL_INVALID_OPERATION);
+        ctx->error_func(ctx, __FUNCTION__, __LINE__, GL_INVALID_OPERATION);
     }
 }
 
@@ -6293,11 +6292,9 @@ void* CppCreateMGLRendererFromContextAndBindToWindow (void *glm_ctx, void *windo
     assert (renderer);
     NSWindow * w = (__bridge NSWindow *)(window); // just a plain bridge as the autorelease pool will try to release this and crash on exit
     assert (w);
-    NSView *view = [[NSView alloc] initWithFrame:NSMakeRect(100, 100, 100, 100)];
+    NSView *view = [[NSView alloc] initWithFrame:NSMakeRect(100, 100, 200, 100)];
     assert (view);
     [view setWantsLayer:YES];
-    //assert(w.contentView);
-    //[w.contentView addSubview:view];
     [w setContentView:view];
     [renderer createMGLRendererAndBindToContext: glm_ctx view: view];
     return  (__bridge void *)(renderer);

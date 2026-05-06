@@ -55,6 +55,7 @@ void mglDisable(GLMContext ctx, GLenum cap)
         case GL_DEBUG_OUTPUT_SYNCHRONOUS: DISABLE_CAP(debug_output_synchronous);
         case GL_DEBUG_OUTPUT: DISABLE_CAP(debug_output);
         case GL_PROGRAM_POINT_SIZE: DISABLE_CAP(program_point_size);
+        case GL_ALPHA_TEST: DISABLE_CAP(alpha_test);
         case GL_TEXTURE_2D:
         case GL_TEXTURE_3D:
         case GL_TEXTURE_CUBE_MAP:

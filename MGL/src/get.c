@@ -33,7 +33,7 @@ enum {
 // set value based on type from ctx->state.var
 #define RET_TYPE_VAR(__TYPE__, __VALUE__) \
 switch(type) {  \
-case kBool: RET_BOOL(ctx->state.var.__VALUE__);   \
+    case kBool: RET_BOOL(ctx->state.var.__VALUE__);   \
     case kInt: RET_INT(ctx->state.var.__VALUE__)    \
     case kFloat: RET_FLOAT(ctx->state.var.__VALUE__)    \
     case kDouble: RET_DOUBLE(ctx->state.var.__VALUE__)    \
@@ -114,7 +114,9 @@ static void mglGet(GLMContext ctx, GLenum pname, GLuint type, void *data)
         case 0x0D33: RET_TYPE_VAR(type, max_texture_size); break; // GL_MAX_TEXTURE_SIZE
         case 0x0D3A: RET_TYPE_VAR(type, max_viewport_dims); break; // GL_MAX_VIEWPORT_DIMS
         case 0x0D50: RET_TYPE_VAR(type, subpixel_bits); break; // GL_SUBPIXEL_BITS
-        case 0x0B00: RET_TYPE_VAR(type, current_color); break; // GL_CURRENT_COLOR
+        case 0x0B00: // GL_CURRENT_COLOR
+            RET_TYPE_VAR_COUNT(type, current_color, 4);
+            break; 
         case 0x0B01: RET_TYPE_VAR(type, current_index); break; // GL_CURRENT_INDEX
         case 0x0B02: RET_TYPE_VAR(type, current_normal); break; // GL_CURRENT_NORMAL
         case 0x0B04: RET_TYPE_VAR(type, current_raster_color); break; // GL_CURRENT_RASTER_COLOR
@@ -216,7 +218,18 @@ static void mglGet(GLMContext ctx, GLenum pname, GLuint type, void *data)
         case 0x80E9: RET_TYPE_VAR(type, max_elements_indices); break; // GL_MAX_ELEMENTS_INDICES
         case 0x846E: RET_TYPE_VAR(type, aliased_line_width_range); break; // GL_ALIASED_LINE_WIDTH_RANGE
         case 0x846D: RET_TYPE_VAR(type, aliased_point_size_range); break; // GL_ALIASED_POINT_SIZE_RANGE
-        case 0x84E0: RET_TYPE(type, active_texture); break; // GL_ACTIVE_TEXTURE
+        case 0x84E0: // GL_ACTIVE_TEXTURE
+        {
+            GLuint u = ctx->state.var.active_texture + GL_TEXTURE0;
+            // printf("%s:%i - GL_ACTIVE_TEXTURE=%u\n", __FILE__, __LINE__, u);
+            switch(type) {
+                case kBool: RET_BOOL(u)
+                case kInt: RET_INT(u)
+                case kFloat: RET_FLOAT(u)
+                case kDouble: RET_DOUBLE(u)
+            }
+            break;
+        }
         case 0x80AA: RET_TYPE_VAR(type, sample_coverage_value); break; // GL_SAMPLE_COVERAGE_VALUE
         case 0x80AB: RET_TYPE_VAR(type, sample_coverage_invert); break; // GL_SAMPLE_COVERAGE_INVERT
         case 0x8514: RET_TYPE_VAR(type, texture_binding_cube_map); break; // GL_TEXTURE_BINDING_CUBE_MAP

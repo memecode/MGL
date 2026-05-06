@@ -1366,7 +1366,7 @@ void mglTexStorage2DMultisample(GLMContext ctx, GLenum target, GLsizei samples, 
     // Validate target
     if (target != GL_TEXTURE_2D_MULTISAMPLE && target != GL_PROXY_TEXTURE_2D_MULTISAMPLE) {
         fprintf(stderr, "MGL WARNING: mglTexStorage2DMultisample invalid target 0x%x\n", target);
-        ctx->error_func(ctx, __FUNCTION__, GL_INVALID_ENUM);
+        ctx->error_func(ctx, __FUNCTION__, __LINE__, GL_INVALID_ENUM);
         return;
     }
     

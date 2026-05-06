@@ -26,12 +26,6 @@ void mglArrayElement(GLMContext ctx, GLint i)
     assert(0);
 }
 
-void mglBegin(GLMContext ctx, GLenum mode)
-{
-    // Unimplemented function
-    NO_IMPL
-}
-
 void mglNewList(GLMContext ctx, GLuint list, GLenum mode)
 {
     // Unimplemented function
@@ -197,18 +191,6 @@ void mglColor4dv(GLMContext ctx, const GLdouble *v)
     assert(0);
 }
 
-void mglColor4f(GLMContext ctx, GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
-{
-    // Unimplemented function
-    NO_IMPL
-}
-
-void mglColor4fv(GLMContext ctx, const GLfloat *v)
-{
-    // Unimplemented function
-    NO_IMPL
-}
-
 void mglColor4i(GLMContext ctx, GLint red, GLint green, GLint blue, GLint alpha)
 {
     // Unimplemented function
@@ -267,12 +249,6 @@ void mglColor4usv(GLMContext ctx, const GLushort *v)
 {
     // Unimplemented function
     assert(0);
-}
-
-void mglEnd(GLMContext ctx)
-{
-    // Unimplemented function
-    NO_IMPL
 }
 
 void mglEdgeFlag(GLMContext ctx, GLboolean flag)
@@ -1398,13 +1374,13 @@ void mglAccum(GLMContext ctx, GLenum op, GLfloat value)
     assert(0);
 }
 
-void mglPopAttrib(GLMContext ctx)
+void mglPushAttrib(GLMContext ctx, GLbitfield mask)
 {
     // Unimplemented function
-    NO_IMPL
+    printf("%s:%i - %s not impl, mask=0x%x\n", _FL, __func__, mask);
 }
 
-void mglPushAttrib(GLMContext ctx, GLbitfield mask)
+void mglPopAttrib(GLMContext ctx)
 {
     // Unimplemented function
     NO_IMPL

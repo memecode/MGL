@@ -22,6 +22,7 @@
 #include <mach/mach_init.h>
 #include <mach/vm_map.h>
 
+#include <stdbool.h>
 #include <stdio.h>
 
 #include <Accelerate/Accelerate.h>
@@ -492,7 +493,8 @@ void mglActiveTexture(GLMContext ctx, GLenum texture)
 
     if (texture > STATE_VAR(max_combined_texture_image_units))
     {
-        ERROR_RETURN(GL_INVALID_INDEX);
+        assert(!"invalid texture");
+        ERROR_RETURN(GL_INVALID_ENUM);
     }
 
     STATE(active_texture) = texture;
@@ -1190,7 +1192,7 @@ bool createTextureLevel(GLMContext ctx, Texture *tex, GLuint face, GLint level, 
 
         ptr = STATE(buffers[_PIXEL_UNPACK_BUFFER]);
 
-        ERROR_CHECK_RETURN(ptr->mapped == false, GL_INVALID_OPERATION);
+        ERROR_CHECK_RETURN_VALUE(ptr->mapped == false, GL_INVALID_OPERATION, GL_FALSE);
 
         GLubyte *buffer_data;
         buffer_data = getBufferData(ctx, ptr);
@@ -1333,7 +1335,7 @@ bool createTextureLevel(GLMContext ctx, Texture *tex, GLuint face, GLint level, 
 
                 ptr = STATE(buffers[_PIXEL_UNPACK_BUFFER]);
 
-                ERROR_CHECK_RETURN(ptr->mapped == false, GL_INVALID_OPERATION);
+                ERROR_CHECK_RETURN_VALUE(ptr->mapped == false, GL_INVALID_OPERATION, false);
 
                 GLubyte *buffer_data;
                 buffer_data = getBufferData(ctx, ptr);
@@ -1594,7 +1596,7 @@ bool texSubImage(GLMContext ctx, Texture *tex, GLuint face, GLint level, GLint x
     }
 
     // no src data.. return
-    ERROR_CHECK_RETURN(pixels, GL_INVALID_OPERATION);
+    ERROR_CHECK_RETURN_VALUE(pixels, GL_INVALID_OPERATION, false);
 
     size_t pixel_size;
     size_t src_size;
@@ -1745,15 +1747,15 @@ void mglTextureSubImage1D(GLMContext ctx, GLuint texture, GLint level, GLint xof
 #pragma mark texSubImage2D
 bool texSubImage2D(GLMContext ctx, Texture *tex, GLuint face, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels)
 {
-    ERROR_CHECK_RETURN(level >= 0, GL_INVALID_VALUE);
-    ERROR_CHECK_RETURN(tex, GL_INVALID_OPERATION);
-    ERROR_CHECK_RETURN(verifyInternalFormatAndFormatType(ctx, tex->internalformat, format, type), 0);
+    ERROR_CHECK_RETURN_VALUE(level >= 0, GL_INVALID_VALUE, false);
+    ERROR_CHECK_RETURN_VALUE(tex, GL_INVALID_OPERATION, false);
+    ERROR_CHECK_RETURN_VALUE(verifyInternalFormatAndFormatType(ctx, tex->internalformat, format, type), 0, false);
 
-    ERROR_CHECK_RETURN(width >= 0, GL_INVALID_VALUE);
-    ERROR_CHECK_RETURN(height >= 0, GL_INVALID_VALUE);
+    ERROR_CHECK_RETURN_VALUE(width >= 0, GL_INVALID_VALUE, false);
+    ERROR_CHECK_RETURN_VALUE(height >= 0, GL_INVALID_VALUE, false);
 
-    ERROR_CHECK_RETURN(width + xoffset <= tex->width, GL_INVALID_VALUE);
-    ERROR_CHECK_RETURN(height + yoffset <= tex->height, GL_INVALID_VALUE);
+    ERROR_CHECK_RETURN_VALUE(width + xoffset <= tex->width, GL_INVALID_VALUE, false);
+    ERROR_CHECK_RETURN_VALUE(height + yoffset <= tex->height, GL_INVALID_VALUE, false);
 
     texSubImage(ctx, tex, face, level, xoffset, yoffset, 0, width, height, 1, format, type, (void *)pixels);
 

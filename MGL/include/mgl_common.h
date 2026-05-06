@@ -5,3 +5,5 @@
 #else
     #define GLAPI extern
 #endif
+
+#define _FL __FILE__, __LINE__

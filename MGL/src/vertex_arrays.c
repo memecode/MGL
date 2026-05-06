@@ -110,12 +110,17 @@ VertexArray *getVAO(GLMContext ctx, GLuint vao)
 int isVAO(GLMContext ctx, GLuint vao)
 {
     VertexArray *ptr;
+    HashTable *tbl = &STATE(vao_table);
 
-    ptr = (VertexArray *)searchHashTable(&STATE(vao_table), vao);
+    ptr = (VertexArray *)searchHashTable(tbl, vao);
 
     if (ptr)
         return 1;
 
+    fprintf(stderr, "%s:%i:%s - searchHashTable failed, size=%u\n", _FL, __func__, tbl->size);
+    for (int i=0; i<tbl->size; i++)
+        fprintf(stderr, "   [%i] %u = %p\n", i, tbl->keys[i].name, tbl->keys[i].data);
+    assert(0);
     return 0;
 }
 
@@ -123,7 +128,10 @@ void mglGenVertexArrays(GLMContext ctx, GLsizei n, GLuint *arrays)
 {
     while(n--)
     {
-        *arrays++ = getNewName(&STATE(vao_table));
+        *arrays = getNewName(&STATE(vao_table));
+        getVAO(ctx, *arrays);
+        fprintf(stderr, "%s:%i:%s - arr=%u\n", _FL, __func__, *arrays);
+        arrays++;
     }
 }
 
@@ -131,15 +139,17 @@ void mglBindVertexArray(GLMContext ctx, GLuint array)
 {
     VertexArray *ptr;
 
+    fprintf(stderr, "%s:%i:%s - array=%u\n", _FL, __func__, array);
     if (array == 0)
     {
         ptr = NULL;
     }
     else
     {
-        //ERROR_CHECK_RETURN(isVAO(ctx, array), GL_INVALID_VALUE);
+        ERROR_CHECK_RETURN(isVAO(ctx, array), GL_INVALID_VALUE);
 
         ptr = getVAO(ctx, array);
+        fprintf(stderr, "%s:%i:%s - ptr=%p\n", _FL, __func__, ptr);
 
         ERROR_CHECK_RETURN(ptr, GL_INVALID_VALUE);
     }
@@ -147,6 +157,7 @@ void mglBindVertexArray(GLMContext ctx, GLuint array)
     if (STATE(vao) != ptr)
     {
         STATE(vao) = ptr;
+        fprintf(stderr, "%s:%i:%s - vao changed to: %p\n", _FL, __func__, ptr);
         STATE(dirty_bits) |= DIRTY_VAO;
     }
 }
@@ -517,15 +528,11 @@ void mglEnableVertexAttribArray(GLMContext ctx, GLuint index)
 
 void mglDisableVertexAttribArray(GLMContext ctx, GLuint index)
 {
+    fprintf(stderr, "%s:%i:%s - index=%u vao=%p\n", _FL, __func__, index, ctx->state.vao);
+
     ERROR_CHECK_RETURN(VAO(), GL_INVALID_OPERATION);
 
     ERROR_CHECK_RETURN(index < MAX_ATTRIBS, GL_INVALID_VALUE);
-
-    if (!STATE(vao))
-    {
-        printf("%s:%i - ERROR: no vao ptr\n", __FILE__, __LINE__);
-        return;
-    }
 
     STATE(vao)->enabled_attribs &= ~(0x1 << index);
     VAO_STATE(dirty_bits) |= DIRTY_VAO;
@@ -562,6 +569,7 @@ void mglVertexArrayElementBuffer(GLMContext ctx, GLuint vaobj, GLuint buffer)
     Buffer *buf_ptr;
 
     ptr = getVAO(ctx, vaobj);
+    fprintf(stderr, "%s:%i:%s - ptr=%p %u,%u\n", _FL, __func__, ptr, vaobj, buffer);
 
     ERROR_CHECK_RETURN(ptr, GL_INVALID_VALUE);
 
@@ -572,6 +580,7 @@ void mglVertexArrayElementBuffer(GLMContext ctx, GLuint vaobj, GLuint buffer)
     }
 
     buf_ptr = findBuffer(ctx, buffer);
+    fprintf(stderr, "%s:%i:%s - buf_ptr=%p\n", _FL, __func__, buf_ptr);
     ERROR_CHECK_RETURN(buf_ptr, GL_INVALID_VALUE);
 
     ptr->element_array.buffer = buf_ptr;

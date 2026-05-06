@@ -87,6 +87,7 @@ typedef struct GLMCaps_t {
 } GLMCaps;
 
 typedef struct GLMParams_t {
+    GLenum begin_mode; // glBegin mode (or GL_INVALID_ENUM otherwise)
     GLfloat point_size;
     GLuint point_size_range;
     GLuint point_size_granularity;
@@ -120,7 +121,7 @@ typedef struct GLMParams_t {
     GLuint max_texture_size;
     GLuint max_viewport_dims;
     GLuint subpixel_bits;
-    GLuint current_color;
+    GLfloat current_color[4];
     GLuint current_index;
     GLuint current_normal;
     GLuint current_raster_color;
@@ -136,7 +137,7 @@ typedef struct GLMParams_t {
     GLuint list_base;
     GLuint list_index;
     GLuint edge_flag;
-    GLuint shade_model;
+    GLenum shade_model;
     GLuint color_material_face;
     GLuint color_material_parameter;
     GLuint accum_clear_value;

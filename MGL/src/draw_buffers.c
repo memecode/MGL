@@ -134,7 +134,9 @@ bool validate_vao(GLMContext ctx, bool uses_elements)
 
     if (uses_elements)
     {
-        if (!ctx->state.vao->element_array.buffer) {
+        if (!ctx->state.vao->element_array.buffer)
+        {
+            assert(0);
             fprintf(stderr, "MGL Error: validate_vao: element buffer missing\n");
             return false;
         }

@@ -28,6 +28,7 @@
 #include <assert.h>
 
 #include "glm_context.h"
+#include "glcorearb.h"
 #include "vertex_arrays.h"
 #include "MGLRenderer.h"
 #include "error.h"
@@ -208,54 +209,57 @@ GLMContext createGLMContext(GLenum format, GLenum type,
     STATE(color_clear_value[2]) = 0.0f;
     STATE(color_clear_value[3]) = 1.0f;
 
-    STATE(var.logic_op) = GL_COPY;
-    STATE(var.stencil_func) = GL_ALWAYS;
+    // Init GL_CURRENT_COLOR to opaque white
+    STATE_VAR(current_color[0]) = 1.0f;
+    STATE_VAR(current_color[1]) = 1.0f;
+    STATE_VAR(current_color[2]) = 1.0f;
+    STATE_VAR(current_color[3]) = 1.0f;
 
-    STATE(var.stencil_fail) = GL_KEEP;
-    STATE(var.stencil_pass_depth_fail) = GL_KEEP;
-    STATE(var.stencil_pass_depth_pass) = GL_KEEP;
+    STATE_VAR(begin_mode) = GL_INVALID_ENUM;
+    STATE_VAR(shade_model) = GL_SMOOTH;
+    STATE_VAR(logic_op) = GL_COPY;
+    STATE_VAR(stencil_func) = GL_ALWAYS;
+
+    STATE_VAR(stencil_fail) = GL_KEEP;
+    STATE_VAR(stencil_pass_depth_fail) = GL_KEEP;
+    STATE_VAR(stencil_pass_depth_pass) = GL_KEEP;
 
     for(int i=0; i<MAX_CLIP_DISTANCES; i++)
     {
         STATE(caps.clip_distances[i]) = false;
     }
 
-    STATE(var.stencil_fail) = GL_KEEP;
-    STATE(var.stencil_pass_depth_fail) = GL_KEEP;
-    STATE(var.stencil_pass_depth_pass) = GL_KEEP;
-    STATE(var.stencil_back_fail) = GL_KEEP;
-    STATE(var.stencil_fail) = GL_KEEP;
-    STATE(var.stencil_back_pass_depth_fail) = GL_KEEP;
-    STATE(var.stencil_back_pass_depth_pass) = GL_KEEP;
-
-    STATE(var.stencil_func) = GL_ALWAYS;
-    STATE(var.stencil_ref) = 0;
-    STATE(var.stencil_writemask) = 0xFFFFFFFF;
-
-    STATE(var.stencil_back_func) = GL_ALWAYS;
-    STATE(var.stencil_back_ref) = 0;
-    STATE(var.stencil_back_writemask) = 0xFFFFFFFF;
-
-    STATE(var.max_compute_work_group_invocations) = 1024;
-
-    STATE(var.max_compute_work_group_count[0]) = 65535;
-    STATE(var.max_compute_work_group_count[1]) = 65535;
-    STATE(var.max_compute_work_group_count[2]) = 65535;
-
-    STATE(var.max_compute_work_group_size[0]) = 1024;
-    STATE(var.max_compute_work_group_size[1]) = 1024;
-    STATE(var.max_compute_work_group_size[2]) = 256;
+    STATE_VAR(stencil_fail) = GL_KEEP;
+    STATE_VAR(stencil_pass_depth_fail) = GL_KEEP;
+    STATE_VAR(stencil_pass_depth_pass) = GL_KEEP;
+    STATE_VAR(stencil_back_fail) = GL_KEEP;
+    STATE_VAR(stencil_fail) = GL_KEEP;
+    STATE_VAR(stencil_back_pass_depth_fail) = GL_KEEP;
+    STATE_VAR(stencil_back_pass_depth_pass) = GL_KEEP;
+    STATE_VAR(stencil_func) = GL_ALWAYS;
+    STATE_VAR(stencil_ref) = 0;
+    STATE_VAR(stencil_writemask) = 0xFFFFFFFF;
+    STATE_VAR(stencil_back_func) = GL_ALWAYS;
+    STATE_VAR(stencil_back_ref) = 0;
+    STATE_VAR(stencil_back_writemask) = 0xFFFFFFFF;
+    STATE_VAR(max_compute_work_group_invocations) = 1024;
+    STATE_VAR(max_compute_work_group_count[0]) = 65535;
+    STATE_VAR(max_compute_work_group_count[1]) = 65535;
+    STATE_VAR(max_compute_work_group_count[2]) = 65535;
+    STATE_VAR(max_compute_work_group_size[0]) = 1024;
+    STATE_VAR(max_compute_work_group_size[1]) = 1024;
+    STATE_VAR(max_compute_work_group_size[2]) = 256;
 
     for(int attachment=0; attachment<MAX_COLOR_ATTACHMENTS; attachment++)
     {
         STATE(caps.use_color_mask[attachment]) = false;
 
         for(int i=0; i<4; i++)
-            STATE(var.color_writemask[attachment][i]) = GL_TRUE;
+            STATE_VAR(color_writemask[attachment][i]) = GL_TRUE;
     }
 
 
-    STATE(var.cull_face_mode) = GL_BACK;
+    STATE_VAR(cull_face_mode) = GL_BACK;
 
     STATE(sync_name) = 1;
 

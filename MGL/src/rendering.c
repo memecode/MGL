@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#include "glcorearb.h"
 #include "mgl.h"
 
 #include "pixel_utils.h"
@@ -511,11 +512,82 @@ void mglReadPixels(GLMContext ctx, GLint x, GLint y, GLsizei width, GLsizei heig
 
 void mglShadeModel(GLMContext ctx, GLenum mode)
 {
-    NO_IMPL
+    if (ctx->state.var.begin_mode != GL_INVALID_ENUM)
+        ERROR_RETURN(GL_INVALID_OPERATION);
+
+    switch (mode)
+    {
+        case GL_FLAT:
+        case GL_SMOOTH:
+            ctx->state.var.shade_model = mode;
+            break;
+        default:
+            ERROR_RETURN(GL_INVALID_ENUM);
+    }
 }
 
 void mglColor3f(GLMContext ctx, GLfloat red, GLfloat green, GLfloat blue)
 {
+    ctx->state.var.current_color[0] = red;
+    ctx->state.var.current_color[1] = green;
+    ctx->state.var.current_color[2] = blue;
+    ctx->state.var.current_color[4] = 1.0;
+}
+
+void mglColor4f(GLMContext ctx, GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+{
+    ctx->state.var.current_color[0] = red;
+    ctx->state.var.current_color[1] = green;
+    ctx->state.var.current_color[2] = blue;
+    ctx->state.var.current_color[4] = alpha;
+}
+
+void mglColor4fv(GLMContext ctx, const GLfloat *v)
+{
+    if (!v) return;
+    ctx->state.var.current_color[0] = v[0];
+    ctx->state.var.current_color[1] = v[1];
+    ctx->state.var.current_color[2] = v[2];
+    ctx->state.var.current_color[4] = v[3];
+}
+
+void mglBegin(GLMContext ctx, GLenum mode)
+{
+    // Validate mode arg:
+    switch (mode)
+    {
+        case GL_POINTS:
+        case GL_LINES:
+        case GL_LINE_STRIP:
+        case GL_LINE_LOOP:
+        case GL_TRIANGLES:
+        case GL_TRIANGLE_STRIP:
+        case GL_TRIANGLE_FAN:
+        case GL_QUADS:
+        case GL_QUAD_STRIP:
+        case GL_POLYGON:
+            break;
+        default:
+            printf("%s:%i - Error: invalid begin mode: %u\n", __FILE__, __LINE__, mode);
+            ERROR_RETURN(GL_INVALID_ENUM);
+    }
+
+    // Check if an existing glBegin is in progress, if it is, error out:
+    if (ctx->state.var.begin_mode != GL_INVALID_ENUM)
+        ERROR_RETURN(GL_INVALID_OPERATION);
+
+    ctx->state.var.begin_mode = mode;
+    printf("%s:%i - %s not impl, mode=%u\n", __FILE__, __LINE__, __func__, mode);
+}
+
+void mglEnd(GLMContext ctx)
+{
+    // Check a glBegin is in progress, if not throw error:
+    if (ctx->state.var.begin_mode == GL_INVALID_ENUM)
+        ERROR_RETURN(GL_INVALID_OPERATION);
+
+    // Unimplemented function
     NO_IMPL
+    ctx->state.var.begin_mode = GL_INVALID_ENUM;
 }
 

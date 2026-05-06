@@ -121,7 +121,6 @@ extern "C" {
 #define GL_ALPHA_BITS 0x0D55
 #define GL_ALPHA_INTEGER 0x8D97
 #define GL_ALPHA_SCALE 0x0D1C
-#define GL_ALPHA_TEST 0x0BC0
 #define GL_ALPHA_TEST_FUNC 0x0BC1
 #define GL_ALPHA_TEST_REF 0x0BC2
 #define GL_ALREADY_SIGNALED 0x911A
@@ -885,7 +884,6 @@ extern "C" {
 #define GL_QUADRATIC_ATTENUATION 0x1209
 #define GL_QUADS 0x0007
 #define GL_QUADS_FOLLOW_PROVOKING_VERTEX_CONVENTION 0x8E4C
-#define GL_QUAD_STRIP 0x0008
 #define GL_QUERY 0x82E3
 #define GL_QUERY_BY_REGION_NO_WAIT 0x8E16
 #define GL_QUERY_BY_REGION_WAIT 0x8E15
@@ -1476,6 +1474,7 @@ extern "C" {
 #define GLAD_GL_ARB_vertex_shader GL_TRUE
 #define GLAD_GL_ARB_fragment_shader GL_TRUE
 #define GLAD_GL_ARB_explicit_attrib_location GL_TRUE
+#define GLAD_GL_ARB_map_buffer_range GL_TRUE
 
 #define GLAD_GL_NV_vertex_program2 GL_FALSE
 #define GLAD_GL_ARB_depth_clamp GL_FALSE
@@ -1483,7 +1482,6 @@ extern "C" {
 #define GLAD_GL_EXT_framebuffer_object GL_FALSE
 #define GLAD_GL_ARB_draw_buffers GL_FALSE
 #define GLAD_GL_EXT_pixel_buffer_object GL_FALSE
-#define GLAD_GL_ARB_map_buffer_range GL_FALSE
 #define GLAD_GL_EXT_texture_filter_anisotropic GL_FALSE
 #define GLAD_GL_ARB_texture_env_dot3 GL_FALSE
 #define GLAD_GL_EXT_texture_edge_clamp GL_FALSE

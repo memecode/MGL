@@ -476,7 +476,7 @@ void mglCompileShader(GLMContext ctx, GLuint shader)
 
         fprintf(stderr, "MGL SHADER ERROR: glslang_shader_preprocess failed with error: %d\n", err);
         fprintf(stderr, "MGL SHADER ERROR: Shader type: %s\n", getShaderTypeStr(ptr->glm_type));
-        fprintf(stderr, "MGL SHADER ERROR: Preprocessed code:\n%s\n", preprocessed ? preprocessed : "(null)");
+        //fprintf(stderr, "MGL SHADER ERROR: Preprocessed code:\n%s\n", preprocessed ? preprocessed : "(null)");
         fprintf(stderr, "MGL SHADER ERROR: Info log:\n%s\n", info_log ? info_log : "(null)");
         fprintf(stderr, "MGL SHADER ERROR: Debug log:\n%s\n", debug_log ? debug_log : "(null)");
 
@@ -514,7 +514,7 @@ void mglCompileShader(GLMContext ctx, GLuint shader)
 
         fprintf(stderr, "MGL SHADER ERROR: glslang_shader_parse failed with error: %d\n", err);
         fprintf(stderr, "MGL SHADER ERROR: Shader type: %s\n", getShaderTypeStr(ptr->glm_type));
-        fprintf(stderr, "MGL SHADER ERROR: Preprocessed code:\n%s\n", preprocessed ? preprocessed : "(null)");
+        // fprintf(stderr, "MGL SHADER ERROR: Preprocessed code:\n%s\n", preprocessed ? preprocessed : "(null)");
         fprintf(stderr, "MGL SHADER ERROR: Info log:\n%s\n", info_log ? info_log : "(null)");
         fprintf(stderr, "MGL SHADER ERROR: Debug log:\n%s\n", debug_log ? debug_log : "(null)");
 

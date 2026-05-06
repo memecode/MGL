@@ -69,6 +69,7 @@ Buffer *newBuffer(GLMContext ctx, GLenum target, GLuint name)
 
     ptr = (Buffer *)malloc(sizeof(Buffer));
     assert(ptr);
+    printf("%s: ptr=%p target=%u name=%u\n", __func__, ptr, target, name);
 
     bzero(ptr, sizeof(Buffer));
 
@@ -235,11 +236,11 @@ void *getBufferData(GLMContext ctx, Buffer *ptr)
 
     ptr = STATE(buffers[_PIXEL_UNPACK_BUFFER]);
 
-    ERROR_CHECK_RETURN(ptr->mapped == false, GL_INVALID_OPERATION);
+    ERROR_CHECK_RETURN_VALUE(ptr->mapped == false, GL_INVALID_OPERATION, NULL);
 
     buffer_data = (void *)ptr->data.buffer_data;
 
-    ERROR_CHECK_RETURN(buffer_data, GL_INVALID_OPERATION);
+    ERROR_CHECK_RETURN_VALUE(buffer_data, GL_INVALID_OPERATION, NULL);
 
     return buffer_data;
 }
@@ -837,7 +838,7 @@ void mglBufferSubData(GLMContext ctx, GLenum target, GLintptr offset, GLsizeiptr
 
     // GL_INVALID_ENUM is generated if target is not supported.
     if (!checkTarget(ctx, target)) {
-        ctx->error_func(ctx, __FUNCTION__, GL_INVALID_ENUM);
+        ERROR_RETURN(GL_INVALID_ENUM);
         return;
     }
 

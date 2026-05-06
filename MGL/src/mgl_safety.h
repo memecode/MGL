@@ -139,7 +139,7 @@ extern "C" {
         } \
         \
         /* Check for suspiciously high pointer values */ \
-        if (ptr_val > 0x100000000ULL) { \
+        if (!__APPLE__ && ptr_val > 0x100000000ULL) { \
             fprintf(stderr, "MGL BUFFER ERROR: %s - Suspicious buffer pointer %p at %s:%d\n", \
                     (function_name), (ptr), __FILE__, __LINE__); \
             return; \
