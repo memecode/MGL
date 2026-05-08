@@ -68,6 +68,14 @@ void mglStackOp(GLMContext ctx, GLbitfield mask, GLboolean store)
     GLMState *state = ctx->stack + ctx->cur_stack;
     const char *op_name = store ? "saving" : "loading";
 
+    if (store)
+    {
+        // initialize the stack's state...
+        memset(state, 0, sizeof(*state));
+        // keep track of what was stored in this stack entry:
+        state->stack_bits = mask;
+    }
+
     if (mask & GL_ACCUM_BUFFER_BIT)
     {
         // Accumulation buffer clear value
@@ -123,8 +131,7 @@ void mglStackOp(GLMContext ctx, GLbitfield mask, GLboolean store)
     }
 
     if (mask & GL_ENABLE_BIT)
-    {
-            
+    {            
         // caps:
         CAP_OP(alpha_test); // GL_ALPHA_TEST flag
         CAP_OP(auto_normal); // GL_AUTO_NORMAL flag
@@ -378,6 +385,12 @@ void mglStackOp(GLMContext ctx, GLbitfield mask, GLboolean store)
 	    Viewport origin and extent
         */
         printf("%s:%i - %s impl: GL_VIEWPORT_BIT\n", __FILE__, __LINE__, __func__);
+    }
+
+    if (!store)
+    {
+        // on a pop operation, clear the flags after we've restored values...
+        state->stack_bits = 0;
     }
 }
 

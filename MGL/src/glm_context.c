@@ -86,6 +86,7 @@ GLMContext createGLMContext(GLenum format, GLenum type,
 
     _ctx = ctx;
 
+    ctx->cur_stack = -1; // no stack stored yet...
     ctx->pixel_format.format = format;
     ctx->pixel_format.type = type;
 
