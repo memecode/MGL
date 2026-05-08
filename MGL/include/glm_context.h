@@ -28,6 +28,7 @@
 #include <glslang_c_interface.h>
 #include <glslang_c_shader_types.h>
 
+#include "glcorearb.h"
 #include "glm_dispatch.h"
 
 #include "hash_table.h"
@@ -63,10 +64,10 @@
 #define VAO_STATE(_val_)   ctx->state.vao->_val_
 #define VAO_ATTRIB_STATE(_index_) ctx->state.vao->attrib[_index_]
 
-#define ERROR_RETURN(_type_) ctx->error_func(ctx, __FUNCTION__, __LINE__, _type_)
-#define ERROR_RETURN_VALUE(_type_, _val_) ctx->error_func(ctx, __FUNCTION__, __LINE__, _type_); return _val_
+#define ERROR_RETURN(_type_) { ctx->error_func(ctx, __FUNCTION__, __LINE__, _type_); return; }
+#define ERROR_RETURN_VALUE(_type_, _val_) { ctx->error_func(ctx, __FUNCTION__, __LINE__, _type_); return _val_; }
 #define ERROR_CHECK_RETURN(_expr_, _type_) if ((_expr_) == false) { ctx->error_func(ctx, __FUNCTION__, __LINE__, _type_); return; }
-#define ERROR_CHECK_RETURN_VALUE(_expr_, _type_, _val_) if ((_expr_) == false) {ctx->error_func(ctx, __FUNCTION__, __LINE__, _type_); return _val_;}
+#define ERROR_CHECK_RETURN_VALUE(_expr_, _type_, _val_) if ((_expr_) == false) {ctx->error_func(ctx, __FUNCTION__, __LINE__, _type_); return _val_; }
 
 enum {
     _TEXTURE_BUFFER = 0, // duplicate of _TEXTURE_BUFFER_TARGET
@@ -548,6 +549,7 @@ enum {
 
 typedef struct {
     GLuint dirty_bits;
+    GLuint stack_bits; // which parts of the state stack are valid
 
     // clear request clear_bitmask from glClear to Metal
     GLbitfield  clear_bitmask;
@@ -695,6 +697,8 @@ struct GLMMetalFuncs {
     void (*mtlDispatchComputeIndirect)(GLMContext ctx, GLintptr indirect);
 } ;
 
+#define STATE_STACK_SIZE        16
+
 typedef struct GLMContextRec_t {
     GLuint      context_flags;
 
@@ -709,6 +713,9 @@ typedef struct GLMContextRec_t {
     struct GLMMetalFuncs mtl_funcs;
 
     GLMState    state;
+    GLMState    stack[STATE_STACK_SIZE]; // see also 'stack_bits' for what parts of stack[n] are valid
+    GLint       cur_stack; // -1 is no stack used, 0 is the stack[0] is used etc
+
     GLboolean   assert_on_error;
 
     PixelFormat pixel_format;

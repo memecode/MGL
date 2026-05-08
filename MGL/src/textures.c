@@ -1581,7 +1581,7 @@ bool texSubImage(GLMContext ctx, Texture *tex, GLuint face, GLint level, GLint x
         // ERROR_CHECK_RETURN(ptr->mapped == false, GL_INVALID_OPERATION);
         if (ptr->mapped) {
             fprintf(stderr, "MGL Error: texSubImage: pixel unpack buffer is mapped\n");
-            ERROR_RETURN(GL_INVALID_OPERATION);
+            ERROR_RETURN_VALUE(GL_INVALID_OPERATION, false);
         }
 
         GLubyte *buffer_data;

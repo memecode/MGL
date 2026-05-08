@@ -753,9 +753,9 @@ void mglBlendFunc(GLMContext ctx, GLenum sfactor, GLenum dfactor)
 
     for(int i=0; i<MAX_COLOR_ATTACHMENTS; i++)
     {
-        ctx->state.var.blend_src_rgb[i] = sfactor;
+        ctx->state.var.blend_src_rgb[i]   = sfactor;
         ctx->state.var.blend_src_alpha[i] = sfactor;
-        ctx->state.var.blend_dst_rgb[i] = dfactor;
+        ctx->state.var.blend_dst_rgb[i]   = dfactor;
         ctx->state.var.blend_dst_alpha[i] = dfactor;
     }
 

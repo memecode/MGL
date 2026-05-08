@@ -33,11 +33,7 @@
 GLint  mglGetUniformLocation(GLMContext ctx, GLuint program, const GLchar *name)
 {
     if (isProgram(ctx, program) == GL_FALSE)
-    {
-        ERROR_RETURN(GL_INVALID_OPERATION); // also may be GL_INVALID_VALUE ????
-
-        return -1;
-    }
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, -1); // also may be GL_INVALID_VALUE ????
 
     Program *ptr;
 
@@ -45,11 +41,7 @@ GLint  mglGetUniformLocation(GLMContext ctx, GLuint program, const GLchar *name)
     assert(program);
 
     if (ptr->linked_glsl_program == NULL)
-    {
-        ERROR_RETURN(GL_INVALID_OPERATION);
-
-        return -1;
-    }
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, -1);
 
     for (int stage=_VERTEX_SHADER; stage<_MAX_SHADER_TYPES; stage++)
     {
@@ -121,11 +113,7 @@ GLuint  mglGetUniformBlockIndex(GLMContext ctx, GLuint program, const GLchar *un
     assert(program);
 
     if (ptr->linked_glsl_program == NULL)
-    {
-        ERROR_RETURN(GL_INVALID_OPERATION);
-
-        return -1;
-    }
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, -1);
 
     for (int stage=_VERTEX_SHADER; stage<_MAX_SHADER_TYPES; stage++)
     {

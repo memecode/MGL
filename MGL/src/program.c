@@ -18,6 +18,7 @@
  *
  */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <CoreFoundation/CoreFoundation.h>
@@ -413,33 +414,33 @@ char *parseSPIRVShaderToMetal(GLMContext ctx, Program *ptr, int stage)
     // ERROR_CHECK_RETURN(spvc_compiler_msl_add_discrete_descriptor_set(compiler_msl, 3) == SPVC_SUCCESS, GL_INVALID_OPERATION);
     if (spvc_compiler_msl_add_discrete_descriptor_set(compiler_msl, 3) != SPVC_SUCCESS) {
         fprintf(stderr, "MGL Error: spvc_compiler_msl_add_discrete_descriptor_set failed\n");
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, NULL);
     }
 
     // Modify options.
     // ERROR_CHECK_RETURN(spvc_compiler_create_compiler_options(compiler_msl, &options) == SPVC_SUCCESS, GL_INVALID_OPERATION);
     if (spvc_compiler_create_compiler_options(compiler_msl, &options) != SPVC_SUCCESS) {
         fprintf(stderr, "MGL Error: spvc_compiler_create_compiler_options failed\n");
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, NULL);
     }
 
     // ERROR_CHECK_RETURN(spvc_compiler_options_set_bool(options, SPVC_COMPILER_OPTION_MSL_ARGUMENT_BUFFERS, SPVC_FALSE) == SPVC_SUCCESS, GL_INVALID_OPERATION);
     if (spvc_compiler_options_set_bool(options, SPVC_COMPILER_OPTION_MSL_ARGUMENT_BUFFERS, SPVC_FALSE) != SPVC_SUCCESS) {
         fprintf(stderr, "MGL Error: spvc_compiler_options_set_bool(SPVC_COMPILER_OPTION_MSL_ARGUMENT_BUFFERS) failed\n");
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, NULL);
     }
 
     // ERROR_CHECK_RETURN(spvc_compiler_options_set_uint(options, SPVC_COMPILER_OPTION_MSL_VERSION, SPVC_MAKE_MSL_VERSION(3,1,0)) == SPVC_SUCCESS, GL_INVALID_OPERATION);
     if (spvc_compiler_options_set_uint(options, SPVC_COMPILER_OPTION_MSL_VERSION, SPVC_MAKE_MSL_VERSION(3,1,0)) != SPVC_SUCCESS) {
         fprintf(stderr, "MGL Error: spvc_compiler_options_set_uint(SPVC_COMPILER_OPTION_MSL_VERSION) failed\n");
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, NULL);
     }
 
     //ERROR_CHECK_RETURN(spvc_compiler_options_set_uint(options, SPVC_COMPILER_OPTION_GLSL_VERSION, 4.5) == SPVC_SUCCESS, GL_INVALID_OPERATION);
     // ERROR_CHECK_RETURN(spvc_compiler_install_compiler_options(compiler_msl, options) == SPVC_SUCCESS, GL_INVALID_OPERATION);
     if (spvc_compiler_install_compiler_options(compiler_msl, options) != SPVC_SUCCESS) {
         fprintf(stderr, "MGL Error: spvc_compiler_install_compiler_options failed\n");
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, NULL);
     }
 
     
@@ -525,14 +526,14 @@ char *parseSPIRVShaderToMetal(GLMContext ctx, Program *ptr, int stage)
         // Check if count * sizeof(SpirvResource) would overflow size_t
         if (count > SIZE_MAX / sizeof(SpirvResource)) {
             fprintf(stderr, "MGL SECURITY ERROR: Resource count %zu would cause allocation overflow\n", count);
-            ERROR_RETURN(GL_OUT_OF_MEMORY);
+            ERROR_RETURN_VALUE(GL_OUT_OF_MEMORY, NULL);
         }
 
         size_t alloc_size = count * sizeof(SpirvResource);
         ptr->spirv_resources_list[stage][res_type].list = (SpirvResource *)malloc(alloc_size);
         if (!ptr->spirv_resources_list[stage][res_type].list) {
             fprintf(stderr, "MGL SECURITY ERROR: Failed to allocate %zu bytes for resource list\n", alloc_size);
-            ERROR_RETURN(GL_OUT_OF_MEMORY);
+            ERROR_RETURN_VALUE(GL_OUT_OF_MEMORY, NULL);
         }
 
         for (i = 0; i < count; i++)
@@ -656,7 +657,7 @@ bool linkAndCompileProgramToMetal(GLMContext ctx, Program *pptr, int stage)
         fprintf(stderr, "MGL Error: glslang_program_get_info_log:\n%s\n", glslang_program_get_info_log(glsl_program));
         fprintf(stderr, "MGL Error: glslang_program_get_info_debug_log:\n%s\n", glslang_program_get_info_debug_log(glsl_program));
 
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, false);
     }
 
     // generate SPIVR
@@ -668,7 +669,7 @@ bool linkAndCompileProgramToMetal(GLMContext ctx, Program *pptr, int stage)
     {
         DEBUG_PRINT("%s\n", glslang_program_SPIRV_get_messages(glsl_program));
 
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, false);
     }
 
     // save SPIRV code
@@ -680,14 +681,14 @@ bool linkAndCompileProgramToMetal(GLMContext ctx, Program *pptr, int stage)
     // Check if size * sizeof(unsigned) would overflow size_t
     if (pptr->spirv[stage].size > SIZE_MAX / sizeof(unsigned)) {
         fprintf(stderr, "MGL SECURITY ERROR: SPIRV size %zu would cause allocation overflow\n", pptr->spirv[stage].size);
-        ERROR_RETURN(GL_OUT_OF_MEMORY);
+        ERROR_RETURN_VALUE(GL_OUT_OF_MEMORY, false);
     }
 
     size_t alloc_size = pptr->spirv[stage].size * sizeof(unsigned);
     pptr->spirv[stage].ir = (unsigned int *)malloc(alloc_size);
     if (!pptr->spirv[stage].ir) {
         fprintf(stderr, "MGL SECURITY ERROR: Failed to allocate %zu bytes for SPIRV\n", alloc_size);
-        ERROR_RETURN(GL_OUT_OF_MEMORY);
+        ERROR_RETURN_VALUE(GL_OUT_OF_MEMORY, false);
     }
     fprintf(stderr, "MGL DEBUG: Getting SPIRV IR\n");
     glslang_program_SPIRV_get(glsl_program, pptr->spirv[stage].ir);
@@ -700,7 +701,7 @@ bool linkAndCompileProgramToMetal(GLMContext ctx, Program *pptr, int stage)
     // ERROR_CHECK_RETURN(pptr->spirv[stage].msl_str, GL_INVALID_OPERATION);
     if (pptr->spirv[stage].msl_str == NULL) {
         fprintf(stderr, "MGL Error: parseSPIRVShaderToMetal failed for stage %d\n", stage);
-        ERROR_RETURN(GL_INVALID_OPERATION);
+        ERROR_RETURN_VALUE(GL_INVALID_OPERATION, false);
     }
 
     pptr->linked_glsl_program = glsl_program;
@@ -830,11 +831,7 @@ void mglGetAttachedShaders(GLMContext ctx, GLuint program, GLsizei maxCount, GLs
 GLint  mglGetAttribLocation(GLMContext ctx, GLuint program, const GLchar *name)
 {
 	if (isProgram(ctx, program) == GL_FALSE)
-	{
-		ERROR_RETURN(GL_INVALID_OPERATION); // also may be GL_INVALID_VALUE ????
-
-		return -1;
-	}
+		ERROR_RETURN_VALUE(GL_INVALID_OPERATION, -1); // also may be GL_INVALID_VALUE ????
 
 	Program *ptr;
 
@@ -842,11 +839,7 @@ GLint  mglGetAttribLocation(GLMContext ctx, GLuint program, const GLchar *name)
 	assert(program);
 
 	if (ptr->linked_glsl_program == NULL)
-	{
-		ERROR_RETURN(GL_INVALID_OPERATION);
-
-		return -1;
-	}
+		ERROR_RETURN_VALUE(GL_INVALID_OPERATION, -1);
 
 	for (int stage=_VERTEX_SHADER; stage<_MAX_SHADER_TYPES; stage++)
 	{

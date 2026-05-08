@@ -1374,18 +1374,6 @@ void mglAccum(GLMContext ctx, GLenum op, GLfloat value)
     assert(0);
 }
 
-void mglPushAttrib(GLMContext ctx, GLbitfield mask)
-{
-    // Unimplemented function
-    printf("%s:%i - %s not impl, mask=0x%x\n", _FL, __func__, mask);
-}
-
-void mglPopAttrib(GLMContext ctx)
-{
-    // Unimplemented function
-    NO_IMPL
-}
-
 void mglMap1d(GLMContext ctx, GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points)
 {
     // Unimplemented function
